@@ -11,21 +11,32 @@ document.addEventListener("DOMContentLoaded", function() {
       containerSelector: '#login-form',
       loggedIn: function(data) {
         console.log('user ', data.user, ' logged in with token', data.token);
+        checkAccess(); // Check user access to specific resource
         logoutButton.style.display = "block";
       },
       loggedOut: function() {
-        console.log('user logged out');
         logoutButton.style.display = "none";
+        window.location.reload();
       }
     });
   }]);
 
   // Logout button
-  const logoutButton = document.getElementById("logout");
+  var logoutButton = document.getElementsByClassName("logout")[0];
   logoutButton.addEventListener("click", function() {
-    tp.pianoId.logout(() => console.log('other logout callback'));
+    tp.pianoId.logout();
   });
 
   // Check access to specific resource with RID: RVYAS7T
-
+  function checkAccess() {
+    var params = { rid: "RVYAS7T" };
+    var callback = function(response) {
+      if (response.access && response.access.granted) {
+        console.log("user has access");
+      } else {
+        console.log("user does not have access");
+      }
+    }
+    tp.api.callApi("/access/check", params, callback);
+  }
 });

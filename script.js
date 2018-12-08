@@ -16,15 +16,15 @@ document.addEventListener("DOMContentLoaded", function() {
       },
       loggedOut: function() {
         logoutButton.style.display = "none";
-        window.location.reload();
+        // window.location.reload();
       }
     });
   }]);
 
   // Logout button
-  var logoutButton = document.getElementsByClassName("logout")[0];
+  var logoutButton = document.getElementById("logout");
   logoutButton.addEventListener("click", function() {
-    tp.pianoId.logout();
+    tp.pianoId.logout(() => window.location.reload());
   });
 
   // Check access to specific resource with RID: RVYAS7T

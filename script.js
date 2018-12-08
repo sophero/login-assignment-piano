@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
       },
       loggedOut: function() {
         logoutButton.style.display = "none";
-        // window.location.reload();
+        window.location.reload();
       }
     });
   }]);
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
   // Logout button
   var logoutButton = document.getElementById("logout");
   logoutButton.addEventListener("click", function() {
-    tp.pianoId.logout(() => window.location.reload());
+    tp.pianoId.logout();
   });
 
   // Check access to specific resource with RID: RVYAS7T
@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var params = { rid: "RVYAS7T" };
     var callback = function(response) {
       if (response.access && response.access.granted) {
+        window.location.reload(false);
         console.log("user has access");
       } else {
         console.log("user does not have access");

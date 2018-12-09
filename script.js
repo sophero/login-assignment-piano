@@ -11,17 +11,18 @@ document.addEventListener("DOMContentLoaded", function() {
       containerSelector: '#login-form',
       loggedIn: function(data) {
         console.log('user ', data.user, ' logged in with token', data.token);
-        checkAccess(); // Check user access to specific resource
+        checkAccess();
         logoutButton.style.display = "block";
       },
       loggedOut: function() {
         logoutButton.style.display = "none";
+        document.cookie = "has_access_refresh_completion=False";
         window.location.reload();
       }
     });
   }]);
 
-  // Logout button
+  // Connect logout button
   var logoutButton = document.getElementById("logout");
   logoutButton.addEventListener("click", function() {
     tp.pianoId.logout();
@@ -32,8 +33,16 @@ document.addEventListener("DOMContentLoaded", function() {
     var params = { rid: "RVYAS7T" };
     var callback = function(response) {
       if (response.access && response.access.granted) {
-        window.location.href = window.location.href;
+        // if user has access, check for cookie "has_access_refresh_completion=True"
+        if (document.cookie.replace(/(?:(?:^|.*;\s*)has_access_refresh_completion\s*\=\s*([^;]*).*$)|^.*$/, "$1") !== "True") {
+
+          // if not True set cookie and refresh
+          document.cookie = "has_access_refresh_completion=True";
+          window.location.reload();
+        }
+
         console.log("user has access");
+        console.log("cookies:", document.cookie);
       } else {
         console.log("user does not have access");
       }

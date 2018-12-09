@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var params = { rid: "RVYAS7T" };
     var callback = function(response) {
       if (response.access && response.access.granted) {
-        window.location.reload(false);
+        window.location.href = window.location.href;
         console.log("user has access");
       } else {
         console.log("user does not have access");

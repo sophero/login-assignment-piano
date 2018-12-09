@@ -13,11 +13,6 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log('user ', data.user, ' logged in with token', data.token);
         checkAccess();
         logoutButton.style.display = "block";
-      },
-      loggedOut: function() {
-        logoutButton.style.display = "none";
-        document.cookie = "has_access_refresh_completion=False";
-        window.location.reload();
       }
     });
   }]);
@@ -25,7 +20,11 @@ document.addEventListener("DOMContentLoaded", function() {
   // Connect logout button
   var logoutButton = document.getElementById("logout");
   logoutButton.addEventListener("click", function() {
-    tp.pianoId.logout();
+    tp.pianoId.logout(() => {
+      document.cookie = "has_access_refresh_completion=False";
+      logoutButton.style.display = "none";
+      window.location.reload();
+    });
   });
 
   // Check access to specific resource with RID: RVYAS7T

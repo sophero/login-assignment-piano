@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
       screen: 'login',
       containerSelector: '#login-form',
       loggedIn: function(data) {
-        console.log('user ', data.user, ' logged in with token', data.token);
+        console.log('User ', data.user, ' logged in with token', data.token);
         checkAccess();
         logoutButton.style.display = "block";
       }
@@ -30,22 +30,21 @@ document.addEventListener("DOMContentLoaded", function() {
   // Check access to specific resource with RID: RVYAS7T
   function checkAccess() {
     var params = { rid: "RVYAS7T" };
+
     var callback = function(response) {
       if (response.access && response.access.granted) {
-        // if user has access, check for cookie "has_access_refresh_completion=True"
+        // if user has access, check for cookie "has_access_refresh_completion=True". Regex from MDN docs.
         if (document.cookie.replace(/(?:(?:^|.*;\s*)has_access_refresh_completion\s*\=\s*([^;]*).*$)|^.*$/, "$1") !== "True") {
-
-          // if not True set cookie and refresh
+          // if not True, set cookie and refresh
           document.cookie = "has_access_refresh_completion=True";
           window.location.reload();
         }
-
-        console.log("user has access");
-        console.log("cookies:", document.cookie);
+        console.log("User has access");
       } else {
-        console.log("user does not have access");
+        console.log("User does not have access");
       }
     }
+
     tp.api.callApi("/access/check", params, callback);
   }
 });

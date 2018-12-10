@@ -12,4 +12,19 @@ body {
 
 #logout {
   display: none;
+  padding: .4rem 1.6rem;
+  font-size: .9rem;
+  font-weight: 100;
+  letter-spacing: .04rem;
+  background: #034b7c;
+  border-color: #034b7c;
+  border-radius: 5px;
+  color: #E8E8E8;
+  transition: all .15s;
+}
+
+#logout:hover {
+  cursor: pointer;
+  background-color: #37474f;
+  border-color: #37474f;
 }

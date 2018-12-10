@@ -8,15 +8,16 @@ document.addEventListener("DOMContentLoaded", function() {
       disableSignUp: true,
       displayMode: 'inline',
       screen: 'login',
-      containerSelector: '#login-form'
+      containerSelector: '#login-form',
+      loggedIn: function(data) {
+        console.log('User ', data.user, ' logged in with token', data.token);
+        logoutButton.style.display = "block";
+      }
     });
   }]);
 
   // Set login success callback handler
-  tp.push(["addHandler", "loginSuccess", function() {
-    logoutButton.style.display = "block";
-    checkAccess();
-  }]);
+  tp.push(["addHandler", "loginSuccess", checkAccess]);
 
   // Connect logout button
   var logoutButton = document.getElementById("logout");
